@@ -27,20 +27,34 @@ import java.util.Objects;
 @Command("team")
 public class TeamCommand extends BaseCommand {
     private final Teams plugin;
+
     public TeamCommand(Teams plugin) {
         this.plugin = plugin;
 
     }
 
     @SubCommand("test")
-    public void testCommand(CommandSender sender, Material material, int amount, boolean give) throws SQLException {
+    public void testCommand(CommandSender sender, Material material, int amount) throws SQLException {
         Player player = (Player) sender;
-        if(!give) {
-            ItemStack items = new ItemStack(material, amount);
-            HashMap<String, Integer> itemStackList = plugin.getTeamDatabase().getTeamMember(player).getLoadoutItems();
-            itemStackList.put(material.toString(), amount);
-            plugin.getTeamDatabase().getTeamMember(player).setLoadoutItems(itemStackList);
-            plugin.getTeamDatabase().updateTeamMember(plugin.getTeamDatabase().getTeamMember(player));
+        ItemStack items = new ItemStack(material, amount);
+        HashMap<String, Integer> itemStackList = plugin.getTeamDatabase().getTeamMember(player).getLoadoutItems();
+        itemStackList.put(material.toString(), amount);
+        TeamMember member = plugin.getTeamDatabase().getTeamMember(player);
+        member.setLoadoutItems(itemStackList);
+        plugin.getTeamDatabase().getTeamMember(player).setLoadoutItems(itemStackList);
+        plugin.getTeamDatabase().updateTeamMember(member);
+        player.sendMessage("Added " + amount + " " + material.toString() + " to your loadout!");
+    }
+
+    @SubCommand("give")
+    public void giveCommand(CommandSender sender) throws SQLException {
+        Player player = (Player) sender;
+        HashMap<String, Integer> itemStackList = plugin.getTeamDatabase().getTeamMember(player).getLoadoutItems();
+        player.sendMessage(String.valueOf(itemStackList.size()));
+        for(String item : itemStackList.keySet()){
+            player.sendMessage(item + " " + itemStackList.get(item).toString());
+            player.getInventory().addItem(new ItemStack(Objects.requireNonNull(Material.getMaterial(item)), itemStackList.get(item)));
+            player.sendMessage("Gived you " + itemStackList.get(item) + " " + item);
         }
     }
     @SubCommand("chat")

@@ -1,5 +1,6 @@
 package org.mbf.teams.db.models;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -17,8 +18,8 @@ public class TeamMember {
     @DatabaseField(canBeNull = false, defaultValue = "0")
     private int kills;
 
-    @DatabaseField
-    private HashMap<String, Integer> loadoutItems;
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    private HashMap<String, Integer> loadoutItems = new HashMap<>();
 
     public TeamMember(){
 
