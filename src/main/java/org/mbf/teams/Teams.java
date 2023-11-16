@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.mbf.teams.commands.LoadoutCommand;
 import org.mbf.teams.commands.TeamCommand;
 import org.mbf.teams.db.TeamDatabase;
+import org.mbf.teams.handlers.LoadoutInventoryHandler;
 import org.mbf.teams.handlers.PlayerJoinHandler;
 
 import java.sql.SQLException;
@@ -38,6 +39,7 @@ public final class Teams extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
         }
         Bukkit.getPluginManager().registerEvents(new PlayerJoinHandler(this), this);
+        Bukkit.getPluginManager().registerEvents(new LoadoutInventoryHandler(this), this);
 
     }
 
