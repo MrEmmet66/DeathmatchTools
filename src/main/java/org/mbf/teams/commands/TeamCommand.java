@@ -37,8 +37,7 @@ public class TeamCommand extends BaseCommand {
             @Requirement("isPlayer"),
             @Requirement("playerInTeam")
     })
-    public void teamChatCommand(CommandSender sender, String message) {
-        Player player = (Player) sender;
+    public void teamChatCommand(Player player, String message) {
         try {
             Team team = plugin.getTeamDatabase().getPlayerTeam(player);
             plugin.getTeamDatabase().sendTeamMessage(team,  team.getColor() + "[" + team.getTag() + "] " + ChatColor.GREEN + player.getName() + ": " + ChatColor.WHITE + String.join(" ", message).substring(5));
@@ -51,8 +50,7 @@ public class TeamCommand extends BaseCommand {
             @Requirement("isPlayer"),
             @Requirement("playerInTeam")
     })
-    public void teamMembersCommand(CommandSender sender) {
-        Player player = (Player) sender;
+    public void teamMembersCommand(Player player) {
         try {
             Team team = plugin.getTeamDatabase().getPlayerTeam(player);
             player.sendMessage("Team members:");
@@ -68,8 +66,7 @@ public class TeamCommand extends BaseCommand {
     }
     @SubCommand("create")
     @Requirement("isPlayer")
-    public void createTeamCommand(CommandSender sender, String name, String tag, ChatColor color) {
-        Player player = (Player) sender;
+    public void createTeamCommand(Player player, String name, String tag, ChatColor color) {
         TeamMember owner;
         Team team = new Team();
         try {
@@ -114,8 +111,7 @@ public class TeamCommand extends BaseCommand {
     }
     @SubCommand("accept")
     @Requirement("isPlayer")
-    public void acceptTeamInviteCommand(CommandSender sender) {
-        Player player = (Player) sender;
+    public void acceptTeamInviteCommand(Player player) {
         if (player.getPersistentDataContainer().has(Keys.INVITE_KEY, PersistentDataType.INTEGER)) {
             PersistentDataContainer container = player.getPersistentDataContainer();
             int teamId = container.get(Keys.INVITE_KEY, PersistentDataType.INTEGER);
@@ -140,8 +136,7 @@ public class TeamCommand extends BaseCommand {
             @Requirement("isPlayer"),
             @Requirement("playerInTeam")
     })
-    public void kickPlayerFromTeamCommand(CommandSender sender, Player targetPlayer) {
-        Player player = (Player) sender;
+    public void kickPlayerFromTeamCommand(Player player, Player targetPlayer) {
         try {
             Team team = plugin.getTeamDatabase().getPlayerTeam(player);
             TeamMember targetMember = plugin.getTeamDatabase().getTeamMember(targetPlayer);

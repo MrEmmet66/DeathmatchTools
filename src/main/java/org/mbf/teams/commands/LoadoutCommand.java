@@ -4,9 +4,11 @@ import dev.triumphteam.cmd.core.BaseCommand;
 import dev.triumphteam.cmd.core.annotation.Command;
 import dev.triumphteam.cmd.core.annotation.Requirement;
 import dev.triumphteam.cmd.core.annotation.SubCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.mbf.teams.Teams;
 import org.mbf.teams.db.models.TeamMember;
@@ -34,6 +36,7 @@ public class LoadoutCommand extends BaseCommand {
         plugin.getTeamDatabase().getTeamMember(player).setLoadoutItems(itemStackList);
         plugin.getTeamDatabase().updateTeamMember(member);
         player.sendMessage("Added " + amount + " " + material.toString() + " to your loadout!");
+
     }
 
     @SubCommand("give")
@@ -46,4 +49,5 @@ public class LoadoutCommand extends BaseCommand {
             player.sendMessage("Gived you " + itemStackList.get(item) + " " + item);
         }
     }
+
 }
