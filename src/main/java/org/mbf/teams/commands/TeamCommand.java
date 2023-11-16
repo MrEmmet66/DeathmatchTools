@@ -64,6 +64,49 @@ public class TeamCommand extends BaseCommand {
             throw new RuntimeException(e);
         }
     }
+
+    @SubCommand("leave")
+    @Requirements({
+        @Requirement("isPlayer"),
+        @Requirement("playerInTeam")
+    })
+    public void leaveTeamComamnd(Player sender) {
+        try {
+            TeamMember member = plugin.getTeamDatabase().getTeamMember(sender);
+            Team team = member.getTeam();
+            if (member.isLeader()) {
+                sender.sendMessage("You cannot leave the team as you are the leader! Use /team disband to disband the team!");
+                return;
+            }
+            member.setTeam(null);
+            plugin.getTeamDatabase().updateTeamMember(member);
+            sender.sendMessage("You have left the team!");
+            plugin.getTeamDatabase().sendTeamMessage(team, ChatColor.RED + sender.getName() + " has left the team!");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @SubCommand("disband")
+    @Requirements({
+            @Requirement("isPlayer"),
+            @Requirement("playerInTeam")
+    })
+    public void disbandTeamCommand(Player player) {
+        try {
+            Team team = plugin.getTeamDatabase().getPlayerTeam(player);
+            if (!team.getLeader().getName().equals(player.getName())) {
+                player.sendMessage("You are not the team leader!");
+                return;
+            }
+            plugin.getTeamDatabase().removeTeam(team);
+            player.sendMessage("Team disbanded!");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @SubCommand("create")
     @Requirement("isPlayer")
     public void createTeamCommand(Player player, String name, String tag, ChatColor color) {

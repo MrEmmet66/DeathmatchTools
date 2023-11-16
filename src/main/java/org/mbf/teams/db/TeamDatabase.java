@@ -5,6 +5,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.mbf.teams.Teams;
 import org.mbf.teams.db.models.Team;
@@ -59,6 +60,11 @@ public class TeamDatabase {
     public Team getPlayerTeam(Player player) throws SQLException {
         TeamMember member = getTeamMember(player);
         return member.getTeam();
+    }
+
+    public void removeTeam(Team team) throws SQLException {
+        sendTeamMessage(team, ChatColor.RED + "Your team has been disbanded!");
+        teamDao.delete(team);
     }
 
     public void sendTeamMessage(Team team, String message){
