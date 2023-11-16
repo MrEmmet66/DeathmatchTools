@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mbf.teams.commands.LoadoutCommand;
 import org.mbf.teams.commands.TeamCommand;
-import org.mbf.teams.commands.TestCommand;
 import org.mbf.teams.db.TeamDatabase;
 import org.mbf.teams.handlers.PlayerJoinHandler;
 
