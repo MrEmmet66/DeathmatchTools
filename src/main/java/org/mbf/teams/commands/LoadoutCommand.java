@@ -25,6 +25,30 @@ public class LoadoutCommand extends BaseCommand {
         this.plugin = plugin;
     }
 
+    @SubCommand("view")
+    @Requirement("isPlayer")
+    public void viewLoadoutCommand(Player sender) throws SQLException {
+        Inventory inventory = Bukkit.createInventory(null, 54, "Loadout");
+        HashMap<String, Integer> loadoutItems = plugin.getTeamDatabase().getTeamMember(sender).getLoadoutItems();
+        for(String item : loadoutItems.keySet()){
+            inventory.addItem(new ItemStack(Objects.requireNonNull(Material.getMaterial(item)), loadoutItems.get(item)));
+        }
+        sender.openInventory(inventory);
+    }
+
+    @SubCommand("clear")
+    @Requirement("isPlayer")
+    public void clearLoadoutCommand(Player sender) throws SQLException {
+        TeamMember member = plugin.getTeamDatabase().getTeamMember(sender);
+        member.setLoadoutItems(new HashMap<>());
+        try {
+            plugin.getTeamDatabase().updateTeamMember(member);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        sender.sendMessage("Cleared your loadout!");
+    }
+
     @SubCommand("add")
     @Requirement("isPlayer")
     public void addLoadoutItemCommand(Player player, Material material, int amount) throws SQLException {
