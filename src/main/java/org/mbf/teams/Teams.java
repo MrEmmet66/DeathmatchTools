@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mbf.teams.commands.LoadoutCommand;
 import org.mbf.teams.commands.TeamCommand;
 import org.mbf.teams.commands.TestCommand;
 import org.mbf.teams.db.TeamDatabase;
@@ -25,7 +26,7 @@ public final class Teams extends JavaPlugin {
         BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(this);
         registerRequirements(manager);
         manager.registerCommand(new TeamCommand(this));
-        manager.registerCommand(new TestCommand());
+        manager.registerCommand(new LoadoutCommand(this));
         try{
             if(!getDataFolder().exists()){
                 getDataFolder().mkdirs();
