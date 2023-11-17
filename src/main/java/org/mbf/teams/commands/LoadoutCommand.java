@@ -15,6 +15,7 @@ import org.mbf.teams.db.models.TeamMember;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Objects;
 
 @Command("loadout")
@@ -40,7 +41,7 @@ public class LoadoutCommand extends BaseCommand {
     @Requirement("isPlayer")
     public void clearLoadoutCommand(Player sender) throws SQLException {
         TeamMember member = plugin.getTeamDatabase().getTeamMember(sender);
-        member.setLoadoutItems(new HashMap<>());
+        member.setLoadoutItems(new LinkedHashMap<>());
         try {
             plugin.getTeamDatabase().updateTeamMember(member);
         } catch (SQLException e) {
@@ -53,7 +54,7 @@ public class LoadoutCommand extends BaseCommand {
     @Requirement("isPlayer")
     public void addLoadoutItemCommand(Player player, Material material, int amount) throws SQLException {
         ItemStack items = new ItemStack(material, amount);
-        HashMap<String, Integer> itemStackList = plugin.getTeamDatabase().getTeamMember(player).getLoadoutItems();
+        LinkedHashMap<String, Integer> itemStackList = plugin.getTeamDatabase().getTeamMember(player).getLoadoutItems();
         itemStackList.put(material.toString(), amount);
         TeamMember member = plugin.getTeamDatabase().getTeamMember(player);
         member.setLoadoutItems(itemStackList);
@@ -65,7 +66,7 @@ public class LoadoutCommand extends BaseCommand {
 
     @SubCommand("give")
     public void giveCommand(Player player) throws SQLException {
-        HashMap<String, Integer> itemStackList = plugin.getTeamDatabase().getTeamMember(player).getLoadoutItems();
+        LinkedHashMap<String, Integer> itemStackList = plugin.getTeamDatabase().getTeamMember(player).getLoadoutItems();
         player.sendMessage(String.valueOf(itemStackList.size()));
         for(String item : itemStackList.keySet()){
             player.sendMessage(item + " " + itemStackList.get(item).toString());

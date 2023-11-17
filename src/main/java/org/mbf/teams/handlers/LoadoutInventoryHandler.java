@@ -12,6 +12,7 @@ import org.mbf.teams.db.models.TeamMember;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class LoadoutInventoryHandler implements Listener {
     private final Teams plugin;
@@ -27,7 +28,7 @@ public class LoadoutInventoryHandler implements Listener {
             return;
         ItemStack[] items = inventory.getContents();
         TeamMember member = plugin.getTeamDatabase().getTeamMember((Player) event.getPlayer());
-        HashMap<String, Integer> newLoadout = new HashMap<>();
+        LinkedHashMap<String, Integer> newLoadout = new LinkedHashMap<>();
         for(ItemStack item : items){
             if(item == null)
                 continue;

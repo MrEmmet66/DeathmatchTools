@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class TeamMember {
@@ -19,7 +20,7 @@ public class TeamMember {
     private int kills;
 
     @DatabaseField(dataType = DataType.SERIALIZABLE)
-    private HashMap<String, Integer> loadoutItems = new HashMap<>();
+    private LinkedHashMap<String, Integer> loadoutItems = new LinkedHashMap<>();
 
     public TeamMember(){
 
@@ -57,11 +58,11 @@ public class TeamMember {
         return kills;
     }
 
-    public HashMap<String, Integer> getLoadoutItems() {
+    public LinkedHashMap<String, Integer> getLoadoutItems() {
         return loadoutItems;
     }
 
-    public void setLoadoutItems(HashMap<String, Integer> loadoutItems) {
+    public void setLoadoutItems(LinkedHashMap<String, Integer> loadoutItems) {
         this.loadoutItems = loadoutItems;
     }
 
