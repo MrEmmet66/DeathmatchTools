@@ -20,7 +20,7 @@ public class TeamMember {
     private int kills;
 
     @DatabaseField(dataType = DataType.SERIALIZABLE)
-    private LinkedHashMap<String, Integer> loadoutItems = new LinkedHashMap<>();
+    private Loadout loadout;
 
     public TeamMember(){
 
@@ -58,12 +58,12 @@ public class TeamMember {
         return kills;
     }
 
-    public LinkedHashMap<String, Integer> getLoadoutItems() {
-        return loadoutItems;
+    public Loadout getLoadoutItems() {
+        return loadout;
     }
 
-    public void setLoadoutItems(LinkedHashMap<String, Integer> loadoutItems) {
-        this.loadoutItems = loadoutItems;
+    public void setLoadoutItems(Loadout loadoutItems) {
+        this.loadout = loadoutItems;
     }
 
     public void setKills(int kills) {
