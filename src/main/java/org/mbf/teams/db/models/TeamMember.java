@@ -16,10 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class TeamMember {
     @DatabaseField(id = true)
@@ -30,6 +27,9 @@ public class TeamMember {
     private Team team;
     @DatabaseField(canBeNull = false, defaultValue = "0")
     private int kills;
+
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    private HashSet<Loadout> loadouts = new HashSet<>();
 
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Loadout loadout;
@@ -74,6 +74,19 @@ public class TeamMember {
 
     public int getRoundLives() {
         return roundLives;
+    }
+
+    public HashSet<Loadout> getLoadouts() {
+        return loadouts;
+    }
+
+    public Loadout getLoadout(String name) {
+        Loadout _loadout = loadouts.stream().filter(loadout -> loadout.getName().equals(name)).findFirst().orElse(null);
+        return _loadout;
+    }
+
+    public void setLoadouts(HashSet<Loadout> loadouts) {
+        this.loadouts = loadouts;
     }
 
     public void setRoundLives(int roundLives) {

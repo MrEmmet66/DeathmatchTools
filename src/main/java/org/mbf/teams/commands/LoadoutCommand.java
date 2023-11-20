@@ -56,21 +56,36 @@ public class LoadoutCommand extends BaseCommand {
         sender.sendMessage("Cleared your loadout!");
     }
 
+    @SubCommand("choose")
+    @Requirement("isPlayer")
+    public void chooseLoadoutCommand(Player sender, String name) throws SQLException {
+        TeamMember member = plugin.getTeamDatabase().getTeamMember(sender);
+        Loadout loadout = member.getLoadout(name);
+        if(loadout != null) {
+            member.setLoadoutItems(loadout);
+            sender.sendMessage("Set your loadout to " + name);
+            plugin.getTeamDatabase().updateTeamMember(member);
+        } else {
+            sender.sendMessage("Could not find loadout " + name);
+        }
+    }
+
     @SubCommand("save")
     @Requirement("isPlayer")
-    public void addLoadoutItemCommand(Player sender) throws SQLException {
-        Loadout loadout = new Loadout();
+    public void addLoadoutItemCommand(Player sender, String name) throws SQLException {
+
         ItemStack[] items = sender.getInventory().getContents();
         ItemStack[] armor = sender.getInventory().getArmorContents();
         String encodedItems = itemStackToBase64(items);
         String encodedArmor = itemStackToBase64(armor);
-        loadout.setItems(encodedItems);
-        loadout.setArmor(encodedArmor);
+        Loadout loadout = new Loadout(encodedItems, encodedArmor, name);
         TeamMember member = plugin.getTeamDatabase().getTeamMember(sender);
-        member.setLoadoutItems(loadout);
+        HashSet<Loadout> loadouts = member.getLoadouts();
+        loadouts.add(loadout);
+        member.setLoadouts(loadouts);
         try {
             plugin.getTeamDatabase().updateTeamMember(member);
-            sender.sendMessage("Saved your loadout!");
+            sender.sendMessage("Saved your new " + name + " loadout!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
