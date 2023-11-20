@@ -79,13 +79,9 @@ public class LoadoutCommand extends BaseCommand {
 
     @SubCommand("give")
     public void giveCommand(Player player) throws SQLException {
+
         TeamMember member = plugin.getTeamDatabase().getTeamMember(player);
-        Loadout loadout = member.getLoadoutItems();
-        ItemStack[] items = itemStacksFromBase64(loadout.getItems());
-        ItemStack[] armor = itemStacksFromBase64(loadout.getArmor());
-        player.getInventory().setContents(items);
-        player.getInventory().setArmorContents(armor);
-        player.sendMessage("Given your loadout!");
+        member.giveLoadout();
     }
 
     private String itemStackToBase64(ItemStack[] items) {

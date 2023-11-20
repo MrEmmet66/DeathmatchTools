@@ -1,11 +1,14 @@
 package org.mbf.teams.db.models;
 
 import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import org.bukkit.ChatColor;
+import org.joml.Vector3d;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @DatabaseTable(tableName = "teams")
@@ -24,6 +27,9 @@ public class Team {
     private TeamMember leader;
     @ForeignCollectionField
     private ForeignCollection<TeamMember> members;
+
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    private HashSet<Vector3d> spawnPositions = new HashSet<>();
 
     public int getId() {
         return id;
@@ -71,6 +77,14 @@ public class Team {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public HashSet<Vector3d> getSpawnPositions() {
+        return spawnPositions;
+    }
+
+    public void setSpawnPositions(HashSet<Vector3d> spawnPositions) {
+        this.spawnPositions = spawnPositions;
     }
 
     public Team() {

@@ -1,5 +1,7 @@
 package org.mbf.teams.db.models;
 
+import org.bukkit.entity.Player;
+
 import java.io.Serializable;
 
 public class Loadout implements Serializable {

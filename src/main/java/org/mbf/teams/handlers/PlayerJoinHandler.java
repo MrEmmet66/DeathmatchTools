@@ -23,6 +23,7 @@ public class PlayerJoinHandler implements Listener {
             TeamMember member = new TeamMember();
             member.setName(event.getPlayer().getName());
             member.setId(event.getPlayer().getUniqueId().toString());
+            member.setRoundLives(plugin.getConfig().getInt("player-lives"));
             plugin.getTeamDatabase().addTeamMember(member);
         }
     }

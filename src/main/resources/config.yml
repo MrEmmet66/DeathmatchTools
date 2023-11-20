@@ -1,0 +1,6 @@
+rounds-count: 2
+round-time: 10 # 0 for infinite
+player-lives: 1 # -1 for infinite
+hide-names: true
+clear-inventory-on-round: true
+

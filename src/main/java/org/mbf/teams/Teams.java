@@ -11,14 +11,17 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mbf.teams.commands.LoadoutCommand;
+import org.mbf.teams.commands.RoundCommand;
 import org.mbf.teams.commands.TeamCommand;
 import org.mbf.teams.db.TeamDatabase;
 import org.mbf.teams.handlers.LoadoutInventoryHandler;
+import org.mbf.teams.handlers.PlayerDeathHandler;
 import org.mbf.teams.handlers.PlayerJoinHandler;
 
 import java.sql.SQLException;
 
 public final class Teams extends JavaPlugin {
+    private final RoundState roundState = new RoundState(this);
     private TeamDatabase teamDatabase;
 
     @Override
@@ -27,6 +30,7 @@ public final class Teams extends JavaPlugin {
         registerRequirements(manager);
         manager.registerCommand(new TeamCommand(this));
         manager.registerCommand(new LoadoutCommand(this));
+        manager.registerCommand(new RoundCommand(this));
         try{
             if(!getDataFolder().exists()){
                 getDataFolder().mkdirs();
@@ -40,6 +44,7 @@ public final class Teams extends JavaPlugin {
         }
         Bukkit.getPluginManager().registerEvents(new PlayerJoinHandler(this), this);
         Bukkit.getPluginManager().registerEvents(new LoadoutInventoryHandler(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerDeathHandler(this), this);
 
     }
 
@@ -53,6 +58,10 @@ public final class Teams extends JavaPlugin {
                 return false;
             }
         });
+    }
+
+    public RoundState getRoundState() {
+        return roundState;
     }
 
     public TeamDatabase getTeamDatabase() {
